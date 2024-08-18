@@ -18,7 +18,7 @@ cd /tmp
 sudo echo 1>/dev/null
 echo "Comprobando si es necesario instalar paquetes."
 sudo apt update 1>/dev/null 2>/dev/null
-sudo apt -y install wget bzip2 coreutils xdg-utils
+sudo apt -y install wget bzip2 coreutils xdg-utils bash
 # Comprobación para saber que librería concreta de OpenSCAP instalar, ya que difiere dependiendo de la versión de cada una de las distribuciones.
 version=$(cat /etc/os-release | grep VERSION_ID | cut -c 13-14,16-17)
 distribucion=$(cat /etc/os-release | grep -w ID | cut -c 4-)
