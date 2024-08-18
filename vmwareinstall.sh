@@ -18,7 +18,7 @@ cd /tmp
 sudo echo 1>/dev/null
 echo "Comprobando si es necesario instalar paquetes."
 sudo apt update 1>/dev/null 2>/dev/null
-sudo apt -y install coreutils openssl mokutil wget tar bash
+sudo apt -y install coreutils openssl mokutil wget tar sudo bash
 clear
 # Obtención y descompresión de la última versión del instalador de VMware Workstation.
 echo "Descargando la versión más reciente del instalador. Espera."
