@@ -21,7 +21,7 @@ procesador=$(cat /proc/cpuinfo | grep vendor_id | head -n 1 | cut -c 13-)
 sudo echo 1>/dev/null
 echo "Comprobando si es necesario instalar paquetes."
 sudo apt update 1>/dev/null 2>/dev/null
-sudo apt -y install wget python3 coreutils tar sudo
+sudo apt -y install wget python3 coreutils tar sudo bash
 mkdir cpuvuln 2>/dev/null && cd cpuvuln
 # Descarga de los comprobadores de Spectre y Meltdown, y vulnerabilidades de CSME.
 wget https://meltdown.ovh -O spectre-meltdown-checker.sh 1>/dev/null 2>/dev/null
