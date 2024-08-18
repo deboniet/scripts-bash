@@ -19,7 +19,7 @@ cd /tmp
 sudo echo 1>/dev/null
 echo "Comprobando si es necesario instalar paquetes."
 sudo apt update 1>/dev/null 2>/dev/null
-sudo apt -y install build-essential curl git gcc cmake make ffmpeg libavcodec-dev libavformat-dev libavutil-dev libswscale-dev libevdev-dev libusb-1.0-0-dev libxrandr-dev libxi-dev libpangocairo-1.0-0 qt6-base-private-dev libbluetooth-dev libasound2-dev libpulse-dev libgl1-mesa-dev libcurl4-openssl-dev libpipewire-0.3-dev libsystemd-dev libdrm-dev libsndio-dev libwayland-dev libzstd-dev liblz4-dev libsfml-dev libgtest-dev libsdl2-dev libbz2-dev liblzma-dev libpugixml-dev libcubeb-dev libmbedtls-dev libhidapi-dev libvulkan-dev gettext coreutils sudo
+sudo apt -y install build-essential curl git gcc cmake make ffmpeg libavcodec-dev libavformat-dev libavutil-dev libswscale-dev libevdev-dev libusb-1.0-0-dev libxrandr-dev libxi-dev libpangocairo-1.0-0 qt6-base-private-dev libbluetooth-dev libasound2-dev libpulse-dev libgl1-mesa-dev libcurl4-openssl-dev libpipewire-0.3-dev libsystemd-dev libdrm-dev libsndio-dev libwayland-dev libzstd-dev liblz4-dev libsfml-dev libgtest-dev libsdl2-dev libbz2-dev liblzma-dev libpugixml-dev libcubeb-dev libmbedtls-dev libhidapi-dev libvulkan-dev gettext coreutils sudo bash
 # Comprobación de versión para saber qué paquete instalar, ya que el nombre difiere entre Ubuntu y Debian.
 version=$(cat /etc/os-release | grep VERSION_ID | cut -c 13-14,16-17)
 distribucion=$(cat /etc/os-release | grep -w ID | cut -c 4-)
