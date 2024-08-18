@@ -16,7 +16,7 @@
 sudo echo 1>/dev/null
 echo "Comprobando si es necesario instalar paquetes."
 sudo apt update 1>/dev/null 2>/dev/null
-sudo apt -y install clamav clamav-freshclam coreutils moreutils util-linux grep sudo
+sudo apt -y install clamav clamav-freshclam coreutils moreutils util-linux grep sudo bash
 # Comprobación de versión para saber si instalar 7zip o p7zip, ya que 7zip solo está disponible a partir de la versión 12 de Debian y la 22.04 de Ubuntu.
 version=$(cat /etc/os-release | grep VERSION_ID | cut -c 13-14,16-17)
 distribucion=$(cat /etc/os-release | grep -w ID | cut -c 4-)
