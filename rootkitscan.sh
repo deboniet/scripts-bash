@@ -16,7 +16,7 @@
 sudo echo 1>/dev/null
 echo "Comprobando si es necesario instalar paquetes."
 sudo apt update 1>/dev/null 2>/dev/null
-sudo apt -y install debsums chkrootkit rkhunter coreutils sudo grep
+sudo apt -y install debsums chkrootkit rkhunter coreutils sudo grep bash
 clear
 mkdir -p ~/Documentos/Logs 2>/dev/null
 # Comprobación de los ficheros de configuración cambiados, los ficheros de idioma faltantes y ficheros ELF modificados.
