@@ -12,8 +12,8 @@
 # Descripción del script: Comprueba si hay conexión a Internet (resolviendo un dominio) y muestra en una notificación el número de paquetes actualizables, si es que los hay.
 # Compatibilidad: CPUs x86 de 64 bits que ejecuten Debian 11 o superior, o Ubuntu 20.04 o superior. Es también compatible con cualquier otra distribución que use los repositorios de alguna de estas dos distribuciones.
 # Requisitos necesarios: 
-# 		1. Tener instalado libnotify, net-tools, grep y bash.
-# 		2. Configurar sudoers con la siguiente línea: <usuario que ejecute el script> ALL=NOPASSWD:/usr/bin/apt update
+# 	1. Tener instalado libnotify, net-tools, grep y bash.
+# 	2. Configurar sudoers con la siguiente línea: <usuario que ejecute el script> ALL=NOPASSWD:/usr/bin/apt update
 # NOTA: El script puede usarse espontáneamente si se desea, pero recomiendo ponerlo al inicio de sesión del usuario para poder sacarle el máximo partido.
 ##################################################
 while true;
