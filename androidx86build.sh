@@ -14,7 +14,7 @@
 # Compatibilidad: CPUs x86 de 64 bits que ejecuten Debian 11 o superior, o Ubuntu 20.04 o superior. Es también compatible con cualquier otra distribución que use los repositorios de alguna de estas dos distribuciones.
 # Requisitos mínimos calculados: 202 GiB de espacio y 15 GiB de RAM (menos de esta cantidad puede ocasionar fallos al compilar ciertos componentes).
 # Recomendaciones previas: Consultar el espacio disponible con el comando df.
-# NOTA: El dominio de www.android-x86.org así como los dominios del código fuente no parecen estar disponibles, por lo que puede que el script no funcione.
+# NOTA: El dominio de www.android-x86.org así como los dominios del código fuente no siempre están disponibles, por lo que puede que el script no funcione en ciertos momentos.
 ##################################################
 # Esto permitirá ejecutar comandos con permisos de súper-usuario sin necesidad de poner la contraseña una y otra vez. Si has configurado sudoers para que este tipo de "trucos" no funcione, esto será inútil.
 sudo echo 1>/dev/null
