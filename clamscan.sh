@@ -20,13 +20,22 @@ sudo apt -y install clamav clamav-freshclam coreutils moreutils util-linux grep 
 # Comprobación de versión para saber si instalar 7zip o p7zip, ya que 7zip solo está disponible a partir de la versión 12 de Debian y la 22.04 de Ubuntu.
 version=$(cat /etc/os-release | grep VERSION_ID | cut -c 13-14,16-17)
 distribucion=$(cat /etc/os-release | grep -w ID | cut -c 4-)
+# Variables para poder realizar el escáner y la compresión correctamente dependiendo de la distribución usada.
+n=0
+zip=0
 if [ $version -ge 2204 -a $distribucion == ubuntu ];
 then
+	n=4
+	zip=7z
 	sudo apt -y install 7zip
 elif [ $version -ge 12 -a $distribucion == debian ];
 then
+	n=2
+	zip=7zz
 	sudo apt -y install 7zip
 else
+	n=2
+	zip=7z
 	sudo apt -y install p7zip-full
 fi
 clear
@@ -49,7 +58,7 @@ mkdir -p ~/"Documentos/Logs/ClamAV/$fecha $hora/GREP/"
 # Inicio de clamscan. También se registra el inicio y el final en el journal del sistema.
 # NOTA: En algunas versiones de Debian hay límite de tamaño para el análisis de 2 GB, en vez de 4 GB.
 echo "Iniciado un escáner de ClamAV por parte de $USER." | logger
-sudo clamscan -v -o --official-db-only=yes -r -z --cross-fs --follow-dir-symlinks=0 --follow-file-symlinks=0 --bytecode --detect-pua=yes --exclude-pua=Doc --scan-mail --heuristic-alerts --scan-pe --scan-elf --scan-ole2 --scan-pdf --scan-swf --scan-html --scan-xmldocs --scan-hwp3 --scan-archive --alert-encrypted=yes --alert-macros=yes --alert-exceeds-max=yes --alert-partition-intersection=yes --max-scantime=900000 --max-files=100000 --max-recursion=100 --max-dir-recursion=100 --max-embeddedpe=4000M --max-filesize=4000M --max-scansize=4000M --alert-broken-media=no "$1" | ts %H:%M:%S | tee ~/"Documentos/Logs/ClamAV/$fecha $hora/ClamScan $fecha $hora (tmp).txt"
+sudo clamscan -v -o --official-db-only=yes -r -z --cross-fs --follow-dir-symlinks=0 --follow-file-symlinks=0 --bytecode --detect-pua=yes --exclude-pua=Doc --scan-mail --heuristic-alerts --scan-pe --scan-elf --scan-ole2 --scan-pdf --scan-swf --scan-html --scan-xmldocs --scan-hwp3 --scan-archive --alert-encrypted=yes --alert-macros=yes --alert-exceeds-max=yes --alert-partition-intersection=yes --max-scantime=900000 --max-files=100000 --max-recursion=100 --max-dir-recursion=100 --max-embeddedpe=4000M --max-filesize="$n"000M --max-scansize="$n"000M --alert-broken-media=no "$1" | ts %H:%M:%S | tee ~/"Documentos/Logs/ClamAV/$fecha $hora/ClamScan $fecha $hora (tmp).txt"
 echo "Finalizado el escáner de ClamAV por parte de $USER, iniciado a las $hora del $fecha" | logger
 # Filtrado del registro original para reducir su tamaño.
 grep -v -e /proc ~/"Documentos/Logs/ClamAV/$fecha $hora/ClamScan $fecha $hora (tmp).txt" > ~/"Documentos/Logs/ClamAV/$fecha $hora/ClamScan $fecha $hora.txt"
@@ -61,6 +70,6 @@ grep " Excluded" ~/"Documentos/Logs/ClamAV/$fecha $hora/ClamScan $fecha $hora.tx
 grep " Empty file" ~/"Documentos/Logs/ClamAV/$fecha $hora/ClamScan $fecha $hora.txt" > ~/"Documentos/Logs/ClamAV/$fecha $hora/GREP/ClamScan (Vacíos) $fecha $hora.txt"
 # Comprimir con 7zip en formato 7Z los registros resultantes.
 rm -r ~/"Documentos/Logs/ClamAV/$fecha $hora/ClamScan $fecha $hora (tmp).txt"
-7z a -t7z -m0=LZMA2 -mmt=on -mx1 -md=256k -mfb=273 -ms=e -mqs=on -mtc=on -mta=on "-w/home/$USER/Documentos/Logs/ClamAV" ~/"Documentos/Logs/ClamAV/$fecha $hora.7z" ~/"Documentos/Logs/ClamAV/$fecha $hora/ClamScan $fecha $hora.txt" ~/"Documentos/Logs/ClamAV/$fecha $hora/GREP" 1>/dev/null
+$zip a -t7z -m0=LZMA2 -mmt=on -mx1 -md=256k -mfb=273 -ms=e -mqs=on -mtc=on -mta=on "-w/home/$USER/Documentos/Logs/ClamAV" ~/"Documentos/Logs/ClamAV/$fecha $hora.7z" ~/"Documentos/Logs/ClamAV/$fecha $hora/ClamScan $fecha $hora.txt" ~/"Documentos/Logs/ClamAV/$fecha $hora/GREP" 1>/dev/null
 # Eliminar los registros, una vez compresos.
 rm -r ~/"Documentos/Logs/ClamAV/$fecha $hora"
