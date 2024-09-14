@@ -12,16 +12,16 @@
 # Descripción del script: Crear una imagen ISO arrancable de Android para equipos x86.
 # Instrucciones de compilación basadas en: www.android-x86.org/source.html
 # Compatibilidad: CPUs x86 de 64 bits que ejecuten Debian 11 o superior, o Ubuntu 20.04 o superior. Es también compatible con cualquier otra distribución que use los repositorios de alguna de estas dos distribuciones.
-# Requisitos mínimos calculados: 202 GiB de espacio y 15 GiB de RAM (menos de esta cantidad puede ocasionar fallos al compilar ciertos componentes).
-# Recomendaciones previas: Consultar el espacio disponible con el comando df.
-# NOTA: El dominio de www.android-x86.org así como los dominios del código fuente no siempre están disponibles, por lo que puede que el script no funcione en ciertos momentos.
+# Requisitos mínimos calculados: 202 GiB de espacio y 15,4 GiB de RAM (menos de esta cantidad puede ocasionar fallos al compilar ciertos componentes).
+# Recomendaciones previas: Consultar el espacio disponible con el comando df y tener un fichero de memoria de intercambio de al menos la mitad de la memoria RAM.
+# NOTA: El dominio de www.android-x86.org así como el dominio del código fuente no siempre están disponibles, por lo que puede que el script no funcione en ciertos momentos.
 ##################################################
 # Esto permitirá ejecutar comandos con permisos de súper-usuario sin necesidad de poner la contraseña una y otra vez. Si has configurado sudoers para que este tipo de "trucos" no funcione, esto será inútil.
 sudo echo 1>/dev/null
 echo "Comprobando si es necesario instalar paquetes."
 # En Debian es necesario tener habilitados los paquetes de la rama contrib.
 sudo apt update 1>/dev/null 2>/dev/null
-sudo apt -y install git gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 libncurses6 x11proto-core-dev libx11-dev lib32z1-dev libgl1-mesa-dev libxml2-utils xsltproc unzip fontconfig repo gcc make m4 lib32stdc++6 libelf-dev mtools libssl-dev python3-mako syslinux-utils openssh-client python-is-python3 pkgconf genisoimage squashfs-tools coreutils bash
+sudo apt -y install git gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 libncurses6 x11proto-core-dev libx11-dev lib32z1-dev libgl1-mesa-dev libxml2-utils xsltproc unzip fontconfig repo gcc make m4 lib32stdc++6 libelf-dev mtools libssl-dev python3-mako syslinux-utils openssh-client python-is-python3 pkgconf genisoimage squashfs-tools coreutils bash libncurses5 libselinux1-dev libsepol-dev
 # Comprobación para saber que versión de Java instalar, al no estar todavía OpenJDK 21 en los repositorios de Debian estable.
 version=$(cat /etc/os-release | grep VERSION_ID | cut -c 13-14,16-17)
 distribucion=$(cat /etc/os-release | grep -w ID | cut -c 4-)
@@ -66,8 +66,7 @@ echo
 mkdir android-x86 2>/dev/null && cd android-x86
 # Estos dos comandos son necesarios para la ejecución de Git. Si tienes configurado estos parámetros, comenta la siguiente línea.
 git config --global user.email "" && git config --global user.name ""
-# Si esta dirección web no funciona, cambia la siguiente línea por esta: repo init -u http://scm.osdn.net/gitroot/android-x86/manifest -b $android
-repo init -u git://git.osdn.net/gitroot/android-x86/manifest -b $android
+repo init -u http://scm.osdn.net/gitroot/android-x86/manifest -b $android
 repo sync --no-tags --no-clone-bundle
 source build/envsetup.sh
 lunch $arquitectura-$target
