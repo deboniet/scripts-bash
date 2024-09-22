@@ -48,6 +48,6 @@ then
 	wget https://www.debian.org/security/oval/oval-definitions-$(lsb_release -cs).xml.bz2 1>/dev/null 2>/dev/null
 	bunzip2 oval-definitions-$(lsb_release -cs).xml.bz2 2>/dev/null
 	echo "Analizando vulnerabilidades en paquetes. En breves momentos el resultado se abrirá en el navegador predeterminado del sistema."
-	oscap oval eval --report report$(lsb_release -cs).html oval-definitions-$(lsb_release -cs).xml 1>/dev/null 2>/dev/null
+	oscap oval eval --report report-$(lsb_release -cs).html oval-definitions-$(lsb_release -cs).xml 1>/dev/null 2>/dev/null
 fi
 xdg-open report-$(lsb_release -cs).html 1>/dev/null 2>/dev/null
