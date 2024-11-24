@@ -22,16 +22,16 @@ sudo apt -y install coreutils openssl mokutil wget tar sudo bash
 clear
 # Obtención y descompresión de la última versión del instalador de VMware Workstation.
 echo "Descargando la versión más reciente del instalador. Espera."
-wget https://softwareupdate.vmware.com/cds/vmw-desktop/ws/17.6.0/24238078/linux/core/VMware-Workstation-17.6.0-24238078.x86_64.bundle.tar 1>/dev/null 2>/dev/null
-tar -xf VMware-Workstation-17.6.0-24238078.x86_64.bundle.tar
-chmod 700 VMware-Workstation-17.6.0-24238078.x86_64.bundle
+wget https://softwareupdate.vmware.com/cds/vmw-desktop/ws/17.6.1/24319023/linux/core/VMware-Workstation-17.6.1-24319023.x86_64.bundle.tar 1>/dev/null 2>/dev/null
+tar -xf VMware-Workstation-17.6.1-24319023.x86_64.bundle.tar
+chmod 700 VMware-Workstation-17.6.1-24319023.x86_64.bundle
 echo
 # Desinstalar VMware Workstation y re-instalarlo.
 echo "Q para cancelar, ENTER para seguir."
 echo "(No hace falta pulsar ninguna tecla si no estaba previamente instalado)"
 sudo vmware-installer -u vmware-workstation 1>/dev/null 2>/dev/null
 echo "Instalando VMware Workstation 17."
-sudo /tmp/VMware-Workstation-17.6.0-24238078.x86_64.bundle 1>/dev/null
+sudo /tmp/VMware-Workstation-17.6.1-24319023.x86_64.bundle 1>/dev/null
 echo "VMware Workstation 17 instalado."
 echo
 # Firmar los módulos vmmon y vmnet con una duración de un siglo.
