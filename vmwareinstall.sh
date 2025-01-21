@@ -22,25 +22,25 @@ sudo apt -y install coreutils openssl mokutil wget tar sudo bash
 clear
 # Obtención y descompresión de la última versión del instalador de VMware Workstation.
 echo "Descargando la versión más reciente del instalador. Espera."
-wget https://softwareupdate.vmware.com/cds/vmw-desktop/ws/17.6.1/24319023/linux/core/VMware-Workstation-17.6.1-24319023.x86_64.bundle.tar 1>/dev/null 2>/dev/null
-tar -xf VMware-Workstation-17.6.1-24319023.x86_64.bundle.tar
-chmod 700 VMware-Workstation-17.6.1-24319023.x86_64.bundle
+wget https://softwareupdate.vmware.com/cds/vmw-desktop/ws/17.6.2/24409262/linux/core/VMware-Workstation-17.6.2-24409262.x86_64.bundle.tar 1>/dev/null 2>/dev/null
+tar -xf VMware-Workstation-17.6.2-24409262.x86_64.bundle.tar
+chmod 700 VMware-Workstation-17.6.2-24409262.x86_64.bundle
 echo
 # Desinstalar VMware Workstation y re-instalarlo.
 echo "Q para cancelar, ENTER para seguir."
 echo "(No hace falta pulsar ninguna tecla si no estaba previamente instalado)"
 sudo vmware-installer -u vmware-workstation 1>/dev/null 2>/dev/null
 echo "Instalando VMware Workstation 17."
-sudo /tmp/VMware-Workstation-17.6.1-24319023.x86_64.bundle 1>/dev/null
+sudo /tmp/VMware-Workstation-17.6.2-24409262.x86_64.bundle 1>/dev/null
 echo "VMware Workstation 17 instalado."
 echo
-# Firmar los módulos vmmon y vmnet con una duración de un siglo.
+# Firmar los módulos vmmon y vmnet, para que funcionen con SecureBoot activado, con una duración de un siglo.
 # NOTA: Algunos firmware no son compatibles con MOKs que tienen una longitud de clave de 4096 bits, si eso ocurriera, bajar el parámetro rsa a 2048.
 echo "Creando certificados para vmmon y vmnet."
 openssl req -new -x509 -newkey rsa:4096 -keyout MOK.priv -outform DER -out MOK.der -nodes -days 36525 -subj "/CN=VMware/" 2>/dev/null
 sudo /usr/src/linux-headers-`uname -r`/scripts/sign-file sha256 ./MOK.priv ./MOK.der $(modinfo -n vmmon)
 sudo /usr/src/linux-headers-`uname -r`/scripts/sign-file sha256 ./MOK.priv ./MOK.der $(modinfo -n vmnet)
-# Introducir una clave para añadir las firmas en el reinicio.
+# Introducir una clave para añadir la firma en el reinicio.
 echo "Introduce la clave para poder añadir el certificado en el reinicio:"
 sudo mokutil --import MOK.der
 mokutil --export ~/Descargas
