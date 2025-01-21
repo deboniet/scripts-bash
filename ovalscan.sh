@@ -28,9 +28,6 @@ then
 elif [ $version -le 2204 -a $distribucion == ubuntu ];
 then
 	sudo apt -y install libopenscap8
-elif [ $version -eq 2310 -a $distribucion == ubuntu ];
-then
-	sudo apt -y install libopenscap25
 elif [ $version -ge 2404 -a $distribucion == ubuntu ];
 then
 	sudo apt -y install libopenscap25t64
