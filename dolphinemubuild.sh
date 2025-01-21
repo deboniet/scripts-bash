@@ -26,6 +26,9 @@ distribucion=$(cat /etc/os-release | grep -w ID | cut -c 4-)
 if [ $version -ge 12 -a $distribucion == debian ];
 then
 	sudo apt -y install qt6-svg-dev
+elif [ $version -ge 2404 -a $distribucion == ubuntu ];
+then
+	sudo apt -y install qt6-svg-dev
 else
 	sudo apt -y install libqt6svg6-dev
 fi
