@@ -28,6 +28,8 @@ echo
 # Ejecutar chkrootkit y solo mostrar los positivos. Si deseas añadir falsos positivos, añádelos al fichero chkrootkit.ignore situado en /etc/chkrootkit
 echo "Ejecutando: chkrootkit"
 echo
+sudo mkdir /etc/chkrootkit 1>/dev/null 2>/dev/null
+sudo touch /etc/chkrootkit/chkrootkit.ignore
 sudo chkrootkit -q | grep -v -f /etc/chkrootkit/chkrootkit.ignore | tee ~/Documentos/Logs/chkrootkit.log
 sudo chown $USER:$USER ~/Documentos/Logs/chkrootkit.log
 echo
