@@ -36,8 +36,9 @@ echo "VMware Workstation 17 instalado."
 echo
 # Firmar los módulos vmmon y vmnet, para que funcionen con SecureBoot activado, con una duración de un siglo.
 # NOTA: Algunos firmware no son compatibles con MOKs que tienen una longitud de clave de 4096 bits, si eso ocurriera, bajar el parámetro rsa a 2048.
-echo "Creando certificados para vmmon y vmnet."
+echo "Creando el certificado para vmmon y vmnet."
 openssl req -new -x509 -newkey rsa:4096 -keyout MOK.priv -outform DER -out MOK.der -nodes -days 36525 -subj "/CN=VMware/" 2>/dev/null
+# En la primera instalación la firma de los módulos fallará porque no existen. Para solucionar esto, inicia VMware Workstation, acepta los errores de compilación de vmmon y vmnet, y a continuación inicia de nuevo el script. Ten en cuenta que al final esto crea 2 MOKs, por lo que habrá que eliminar el más viejo más adelante.
 sudo /usr/src/linux-headers-`uname -r`/scripts/sign-file sha256 ./MOK.priv ./MOK.der $(modinfo -n vmmon)
 sudo /usr/src/linux-headers-`uname -r`/scripts/sign-file sha256 ./MOK.priv ./MOK.der $(modinfo -n vmnet)
 # Introducir una clave para añadir la firma en el reinicio.
@@ -45,4 +46,4 @@ echo "Introduce la clave para poder añadir el certificado en el reinicio:"
 sudo mokutil --import MOK.der
 mokutil --export ~/Descargas
 echo
-echo "Se han exportado las claves antiguas en Descargas, para posterior eliminación de las antiguas claves. Revisa el MOK antiguo y eliminalo. Después, reinicia el equipo para completar todas las operaciones en un solo reinicio."
+echo "Se han exportado los MOKs en Descargas, para posterior eliminación. Revisa el MOK antiguo y eliminalo. Después, reinicia el equipo para completar todas las operaciones en un solo reinicio."
