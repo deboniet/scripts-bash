@@ -33,8 +33,19 @@ else
 	sudo apt -y install libqt6svg6-dev
 fi
 clear
-# Clonación del repositorio, y de los submódulos necesarios.
-git clone https://github.com/dolphin-emu/dolphin
+# Clonación del repositorio y de los submódulos necesarios, dependiendo de la versión que se desee.
+read -p "Elige entre la versión (E)stable o de (D)esarollo: " version
+if [ $version = Estable -o $version = estable -o $version = E -o $version = e ];
+then
+	echo
+	echo "Seleccionada la versión estable. Descargando."
+	git clone --branch 2412 --single-branch https://github.com/dolphin-emu/dolphin
+elif [ $version = Desarrollo -o $version = desarrollo -o $version = D -o $version = d ];
+then
+	echo
+	echo "Seleccionada la versión de desarrollo. Descargando."
+	git clone https://github.com/dolphin-emu/dolphin
+fi
 cd dolphin
 git -c submodule."Externals/Qt".update=none \
 -c submodule."Externals/FFmpeg-bin".update=none \
