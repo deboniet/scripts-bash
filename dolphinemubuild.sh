@@ -61,5 +61,7 @@ echo
 make -j$(nproc)
 echo
 sudo make install
+# Al terminar la instalación, el directorio es propiedad y acceso solo para el usuario root. Por ello, hay que dar permisos de lectura y ejecución para otros.
+sudo chmod 755 /usr/local/share/dolphin-emu
 echo
 echo "Dolphin Emulator instalado."
