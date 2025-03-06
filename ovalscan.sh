@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright (C) 2024 deboniet
+# Copyright (C) 2024-2025 deboniet
 
 # This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or any later version.
 
@@ -33,7 +33,7 @@ then
 	sudo apt -y install libopenscap25t64
 fi
 clear
-# Descarga, descompresión y ejecución del OVAL más reciente dependiendo de la distribución usada.
+# Descarga, descompresión y ejecución del OVAL más reciente, dependiendo de la distribución usada.
 if [ $distribucion == ubuntu ];
 then
 	wget https://security-metadata.canonical.com/oval/com.ubuntu.$(lsb_release -cs).usn.oval.xml.bz2 1>/dev/null 2>/dev/null
