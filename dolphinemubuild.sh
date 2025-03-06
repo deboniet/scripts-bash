@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright (C) 2024 deboniet
+# Copyright (C) 2024-2025 deboniet
 
 # This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or any later version.
 
@@ -57,7 +57,7 @@ mkdir build && cd build
 # El argumento -Wno-dev suprime algunos mensajes irrelevantes.
 cmake .. -Wno-dev
 echo
-# El parámetro nproc usará todos los núcleos del procesador para la compilación, lo que puede llegar a saturar el sistema en ciertos momentos. Otra opción recomendable puede ser: $(($(nproc) - 1)), que usa todos los núcleos excepto uno.
+# El parámetro nproc usará todos los núcleos del procesador para la compilación, lo que puede llegar a saturar el sistema en ciertos momentos. Otra opción recomendable puede ser: $(($(nproc) - 1)) que usa todos los núcleos excepto uno.
 make -j$(nproc)
 echo
 sudo make install
