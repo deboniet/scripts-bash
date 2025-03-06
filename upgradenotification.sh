@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright (C) 2024 deboniet
+# Copyright (C) 2024-2025 deboniet
 
 # This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or any later version.
 
@@ -22,7 +22,7 @@ do
 	if nslookup google.com > /dev/null 2>&1;
 		then
 			notify-send "Resolución de nombres operativa"
-			# Una vez haya resolución de nombres, actualizar la caché de repositorios, extraer el número de paquetes por actualizar y mostrar una notificación con dicho número, si es que hay paquetes por actualizar. Requiere configurar sudoers para que APT se ejecute sin pedir privilegios. Consulta los requisitos necesarios arriba mencionados.
+			# Una vez haya resolución de nombres, actualizar la caché de repositorios, extraer el número de paquetes por actualizar y mostrar una 				notificación con dicho número, si es que hay paquetes por actualizar. Requiere configurar sudoers para que APT se ejecute sin pedir 				privilegios. Consulta los requisitos necesarios arriba mencionados.
 			paquetes=$(sudo apt update 2>/dev/null | grep -o "Se pueden actualizar .* paquetes" | grep -oE '[0-9]{1,5}')
 			if [ -z $paquetes ];
 			then
