@@ -12,7 +12,7 @@
 # Descripción del script: Crear una ISO arrancable de Android para equipos x86.
 # Instrucciones de compilación basadas en: www.android-x86.org/source.html
 # Compatibilidad: CPUs x86 de 64 bits que ejecuten Debian 11 o superior, o Ubuntu 20.04 o superior. Es también compatible con cualquier otra distribución que use los repositorios de alguna de estas dos distribuciones.
-# Requisitos mínimos calculados para la rama r-x86: 182 GiB de espacio y 15 GiB de RAM (menos de esta cantidad puede ocasionar fallos al compilar ciertos componentes).
+# Requisitos mínimos calculados para la rama r-x86: 182 GiB de espacio y 16 GiB de RAM (menos de esta cantidad puede ocasionar fallos al compilar ciertos componentes).
 # Recomendaciones previas: Consultar el espacio disponible en disco y tener un fichero de memoria de intercambio de, al menos, la mitad de la memoria RAM.
 ##################################################
 # Esto permitirá ejecutar comandos con permisos de súper-usuario sin necesidad de poner la contraseña una y otra vez. Si has configurado sudoers para que este tipo de "trucos" no funcione, esto será inútil.
@@ -64,52 +64,52 @@ read -p "Introduce el target: " target
 echo
 mkdir $android 2>/dev/null
 cd $android
-# Descarga, desde SourceForge, del kernel y otros ficheros, al no estar disponible en el espejo de GitHub.
+# Descarga, desde Internet Archive, del kernel y otros ficheros, al no estar disponibles en el espejo de GitHub.
 echo "Descargando y extrayendo los ficheros necesarios para la rama $android. Espera."
 if [ $android = r-x86 ];
 then
 	rm -r kernel 2>/dev/null
-	wget https://sourceforge.net/code-snapshots/git/a/an/android-x86/kernel.git/android-x86-kernel-227c2c1aa5184f2cd1872d079ab9d96790bcaf69.zip 2>/dev/null
-	unzip -q android-x86-kernel-227c2c1aa5184f2cd1872d079ab9d96790bcaf69.zip
+	wget https://archive.org/download/androidx86-build-files/r-x86_kernel.zip 2>/dev/null
+	unzip -q r-x86_kernel.zip
 	mv android-x86-kernel-227c2c1aa5184f2cd1872d079ab9d96790bcaf69 kernel
-	rm android-x86-kernel-227c2c1aa5184f2cd1872d079ab9d96790bcaf69.zip
+	rm r-x86_kernel.zip
 elif [ $android = q-x86 -o $android = pie-x86 -o $android = oreo-x86 ];
 then
 	rm -r kernel 2>/dev/null
-	wget https://sourceforge.net/code-snapshots/git/a/an/android-x86/kernel.git/android-x86-kernel-0676905e8791e9a838216e02d4974b2c965e3d4b.zip 2>/dev/null
-	unzip -q android-x86-kernel-0676905e8791e9a838216e02d4974b2c965e3d4b.zip
+	wget https://archive.org/download/androidx86-build-files/q-pie-oreo-x86_kernel.zip 2>/dev/null
+	unzip -q q-pie-oreo-x86_kernel.zip
 	mv android-x86-kernel-0676905e8791e9a838216e02d4974b2c965e3d4b kernel
-	rm android-x86-kernel-0676905e8791e9a838216e02d4974b2c965e3d4b.zip
+	rm q-pie-oreo-x86_kernel.zip
 elif [ $android = nougat-x86 ];
 then
 	# Primero el kernel.
 	rm -r kernel 2>/dev/null
-	wget https://sourceforge.net/code-snapshots/git/a/an/android-x86/kernel.git/android-x86-kernel-dcaac9a77ef90bf7844559838a032b4dfd4db32c.zip 2>/dev/null
-	unzip -q android-x86-kernel-dcaac9a77ef90bf7844559838a032b4dfd4db32c.zip
+	wget https://archive.org/download/androidx86-build-files/nougat-x86_kernel.zip 2>/dev/null
+	unzip -q nougat-x86_kernel.zip
 	mv android-x86-kernel-dcaac9a77ef90bf7844559838a032b4dfd4db32c kernel
-	rm android-x86-kernel-dcaac9a77ef90bf7844559838a032b4dfd4db32c.zip
+	rm nougat-x86_kernel.zip
 	# Después los ficheros de construcción.
 	rm -r build 2>/dev/null
-	wget https://sourceforge.net/code-snapshots/git/a/an/android-x86/build.git/android-x86-build-a5794035de9c287fe79404df4beb41575e6c23bd.zip 2>/dev/null
-	unzip -q android-x86-build-a5794035de9c287fe79404df4beb41575e6c23bd.zip
+	wget https://archive.org/download/androidx86-build-files/nougat-x86_build.zip 2>/dev/null
+	unzip -q nougat-x86_build.zip
 	mv android-x86-build-a5794035de9c287fe79404df4beb41575e6c23bd build
 	mv build/core/root.mk Makefile
-	rm android-x86-build-a5794035de9c287fe79404df4beb41575e6c23bd.zip
+	rm nougat-x86_build.zip
 elif [ $android = marshmallow-x86 ];
 then
 	# Primero el kernel.
 	rm -r kernel 2>/dev/null
-	wget https://sourceforge.net/code-snapshots/git/a/an/android-x86/kernel.git/android-x86-kernel-c484ab103fe93254f4a6af7f63275febe607d88b.zip 2>/dev/null
-	unzip -q android-x86-kernel-c484ab103fe93254f4a6af7f63275febe607d88b.zip
+	wget https://archive.org/download/androidx86-build-files/marshmallow-x86_kernel.zip 2>/dev/null
+	unzip -q marshmallow-x86_kernel.zip
 	mv android-x86-kernel-c484ab103fe93254f4a6af7f63275febe607d88b kernel
-	rm android-x86-kernel-c484ab103fe93254f4a6af7f63275febe607d88b.zip
+	rm marshmallow-x86_kernel.zip
 	# Después los ficheros de construcción.
 	rm -r build 2>/dev/null
-	wget https://sourceforge.net/code-snapshots/git/a/an/android-x86/build.git/android-x86-build-c17b3126024edc56736a50ed9401ed0f7b8ca37f.zip 2>/dev/null
-	unzip -q android-x86-build-c17b3126024edc56736a50ed9401ed0f7b8ca37f.zip
+	wget https://archive.org/download/androidx86-build-files/marshmallow-x86_build.zip 2>/dev/null
+	unzip -q marshmallow-x86_build.zip
 	mv android-x86-build-c17b3126024edc56736a50ed9401ed0f7b8ca37f build
 	mv build/core/root.mk Makefile
-	rm android-x86-build-c17b3126024edc56736a50ed9401ed0f7b8ca37f.zip
+	rm marshmallow-x86_build.zip
 fi
 # Estos dos comandos son necesarios para la ejecución de Git. Si tienes configurado estos parámetros, comenta la siguiente línea.
 git config --global user.email "" && git config --global user.name ""
