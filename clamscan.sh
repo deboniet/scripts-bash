@@ -27,7 +27,7 @@ zip=0
 if [ $version -eq 2204 -a $distribucion = ubuntu ];
 then
 	n=4
-	zip=7z
+	zip=7zz
 	sudo apt -y install 7zip
 elif [ $version -ge 2404 -a $distribucion = ubuntu ];
 then
