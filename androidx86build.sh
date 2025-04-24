@@ -12,40 +12,57 @@
 # Descripción del script: Crear una ISO arrancable de Android para equipos x86.
 # Instrucciones de compilación basadas en: www.android-x86.org/source.html
 # Compatibilidad: CPUs x86 de 64 bits que ejecuten Debian 11 o superior, o Ubuntu 20.04 o superior. Es también compatible con cualquier otra distribución que use los repositorios de alguna de estas dos distribuciones.
-# Requisitos mínimos calculados para la rama r-x86: 182 GiB de espacio y 16 GiB de RAM (menos de esta cantidad puede ocasionar fallos al compilar ciertos componentes).
-# Recomendaciones previas: Consultar el espacio disponible en disco y tener un fichero de memoria de intercambio de, al menos, la mitad de la memoria RAM.
+# Requisitos mínimos calculados para la rama r-x86: 185 GiB de espacio y 16 GiB de RAM (menos de esta cantidad puede ocasionar fallos al compilar ciertos componentes).
+# Recomendaciones previas: Consultar el espacio disponible en disco, la disponibilidad de Python 2/3 y tener un fichero de memoria de intercambio de, al menos, la mitad de la memoria RAM.
+
+# Opciones adicionales. 0 es desactivado. 1 es activado.
+# Usar Python 2 (Solo disponible en Debian 11 y Ubuntu 20.04).
+python2=0
+# Usar Java 8 (Solo disponible en Ubuntu).
+java8=0
+
 ##################################################
 # Esto permitirá ejecutar comandos con permisos de súper-usuario sin necesidad de poner la contraseña una y otra vez. Si has configurado sudoers para que este tipo de "trucos" no funcione, esto será inútil.
 sudo echo 1>/dev/null
 echo "Comprobando si es necesario instalar paquetes."
-# En Debian es necesario tener habilitados los paquetes de la rama contrib.
 sudo apt update 1>/dev/null 2>/dev/null
-sudo apt -y install git gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 libncurses6 libx11-dev lib32z1-dev libxml2-utils xsltproc unzip fontconfig repo gcc make m4 lib32stdc++6 libelf-dev mtools libssl-dev python3-mako syslinux-utils openssh-client python-is-python3 pkgconf genisoimage squashfs-tools coreutils bash libncurses5 libselinux1-dev libsepol-dev wget unzip gettext
-# Comprobación para saber que versión de Java instalar al no estar todavía OpenJDK 21 en los repositorios de Debian estable.
-# NOTA: La compilación no da errores con estas versiones de Java, pero si da ciertas advertencias por usarlas. Si esto te preocupa, cambia a la versión 8 de Java.
+sudo apt -y install git gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 libncurses6 libx11-dev lib32z1-dev libxml2-utils xsltproc unzip fontconfig gcc make m4 lib32stdc++6 libelf-dev mtools libssl-dev syslinux-utils openssh-client pkgconf genisoimage squashfs-tools coreutils bash libncurses5 libselinux1-dev libsepol-dev wget unzip gettext java-common bc
+# Comprobación para saber qué versión de Java instalar, al no estar OpenJDK 21 en los repositorios de Debian estable. La compilación no da errores con estas versiones recientes de Java, pero sí da ciertas advertencias por usarlas. Si esto te preocupa, cambia a la versión 8 de Java.
 version=$(cat /etc/os-release | grep VERSION_ID | cut -c 13-14,16-17)
 distribucion=$(cat /etc/os-release | grep -w ID | cut -c 4-)
-if [ $version -ge 11 -a $distribucion = debian ];
+if [ $java8 = 1 ];
+then
+	sudo apt -y install openjdk-8-jdk
+	sudo update-java-alternatives --set java-1.8.0-openjdk-amd64
+elif [ $version -ge 11 -a $distribucion = debian -a $java8 = 0 ];
 then
 	sudo apt -y install openjdk-17-jdk
 else
 	sudo apt -y install openjdk-21-jdk
+	sudo update-java-alternatives --set java-1.21.0-openjdk-amd64
+fi
+# Instalación de paquetes dependiendo de la versión de Python elegida.
+if [ $python2 = 1 ];
+then
+	sudo apt -y install python2 python-is-python2 python-mako python-enum34
+elif [ $python2 = 0 ];
+then
+	sudo apt -y install python-is-python3 python3-mako
 fi
 clear
 echo "NOTA: Se creará un directorio con la rama elegida en el lugar que especifiques a continuación."
-read -p "Introduce el directorio donde se alojara la compilación: " directorio
+read -p "Introduce el directorio donde se alojará la compilación: " directorio
 cd "$directorio"
 echo
 read -p "Introduce el directorio donde se moverá la ISO: " resultado
 echo
-# El resto de versiones requieren de programas muy antiguos, o repositorios inexistentes, para poder ser compiladas. Para más información, consulta el apartado "Building the image" en www.android-x86.org/source.html
+# El resto de versiones requieren de una versión de Java muy antigua para poder ser compiladas. Para más información, consulta el apartado "Building the image" en www.android-x86.org/source.html
 echo "Versiones disponibles:"
 echo "r-x86 --> Android 11"
 echo "q-x86 --> Android 10"
-echo "pie-x86 --> Android 9"
-echo "oreo-x86 --> Android 8.1"
-echo "nougat-x86 --> Android 7.1 (Requiere Java 8)"
-echo "marshmallow-x86 --> Android 6 (Requiere Java 8)"
+echo "pie-x86 --> Android 9 (Requiere Python 2)"
+echo "oreo-x86 --> Android 8.1 (Requiere Python 2 y Java 8)"
+echo "nougat-x86 --> Android 7.1 (Requiere Python 2 y Java 8)"
 echo
 read -p "Introduce la versión: " android
 echo
@@ -55,16 +72,16 @@ echo "android_x86_64 --> 64 bits"
 echo
 read -p "Introduce la arquitectura: " arquitectura
 echo
-echo "Targets:"
+echo "Destinos disponibles:"
 echo "user --> Acceso limitado, como en las imágenes reales de Android."
-echo "userdebug --> Igual que user, pero con acceso root y menos limitado."
+echo "userdebug --> Igual que user, pero más adecuada para desarrollo."
 echo "eng --> Acceso ilimitado, ideal para desarrollo."
 echo
 read -p "Introduce el target: " target
 echo
 mkdir $android 2>/dev/null
 cd $android
-# Descarga, desde Internet Archive, del kernel y otros ficheros, al no estar disponibles en el espejo de GitHub.
+# Descarga desde Internet Archive, del kernel y otros ficheros, al no estar disponibles en el espejo de GitHub.
 echo "Descargando y extrayendo los ficheros necesarios para la rama $android. Espera."
 # Las descargas desde Internet Archive pueden ser lentas a veces. La solución está en reintentarlo hasta que se consiga una velocidad de descarga decente.
 echo "NOTA: Si la descarga es muy lenta, prueba a ejecutar de nuevo el script."
@@ -86,14 +103,14 @@ then
 	rm q-pie-oreo-x86_kernel.zip
 elif [ $android = nougat-x86 ];
 then
-	# Primero el kernel.
+	# Primero, el kernel.
 	rm -r kernel 2>/dev/null
 	rm nougat-x86_kernel.zip 2>/dev/null
 	wget https://archive.org/download/androidx86-build-files/nougat-x86_kernel.zip 2>/dev/null
 	unzip -q nougat-x86_kernel.zip
 	mv android-x86-kernel-dcaac9a77ef90bf7844559838a032b4dfd4db32c kernel
 	rm nougat-x86_kernel.zip
-	# Después los ficheros de construcción.
+	# Después, los ficheros de construcción.
 	rm -r build 2>/dev/null
 	rm nougat-x86_build.zip 2>/dev/null
 	wget https://archive.org/download/androidx86-build-files/nougat-x86_build.zip 2>/dev/null
@@ -101,33 +118,21 @@ then
 	mv android-x86-build-a5794035de9c287fe79404df4beb41575e6c23bd build
 	mv build/core/root.mk Makefile
 	rm nougat-x86_build.zip
-elif [ $android = marshmallow-x86 ];
-then
-	# Primero el kernel.
-	rm -r kernel 2>/dev/null
-	rm marshmallow-x86_kernel.zip 2>/dev/null
-	wget https://archive.org/download/androidx86-build-files/marshmallow-x86_kernel.zip 2>/dev/null
-	unzip -q marshmallow-x86_kernel.zip
-	mv android-x86-kernel-c484ab103fe93254f4a6af7f63275febe607d88b kernel
-	rm marshmallow-x86_kernel.zip
-	# Después los ficheros de construcción.
-	rm -r build 2>/dev/null
-	rm marshmallow-x86_build.zip 2>/dev/null
-	wget https://archive.org/download/androidx86-build-files/marshmallow-x86_build.zip 2>/dev/null
-	unzip -q marshmallow-x86_build.zip
-	mv android-x86-build-c17b3126024edc56736a50ed9401ed0f7b8ca37f build
-	mv build/core/root.mk Makefile
-	rm marshmallow-x86_build.zip
 fi
-# Estos dos comandos son necesarios para la ejecución de Git. Si tienes configurado estos parámetros, comenta la siguiente línea.
+# Estos dos comandos son necesarios para la ejecución de Git. Si tienes configurados estos parámetros, comenta la siguiente línea.
 git config --global user.email "" && git config --global user.name ""
 echo
+# Descarga de repo desde Google.
+mkdir -p .repo/repo.tmp 2>/dev/null
+wget https://storage.googleapis.com/git-repo-downloads/repo 2>/dev/null
+mv repo .repo/repo.tmp
+chmod a+rx .repo/repo.tmp/repo
+.repo/repo.tmp/repo init 2>/dev/null
 # Reemplazo de los antiguos manifiestos por unos funcionales.
-repo init --partial-clone -b $android -u https://github.com/deboniet/android-x86-manifest
-# Usar la última versión de repo descargada de Google, en vez de la instalada por la distribución.
+.repo/repo/repo init --partial-clone -b $android -u https://github.com/deboniet/android-x86-manifest
 .repo/repo/repo sync -c --no-tags --no-clone-bundle -j$(nproc)
 echo
-# Descarga de ficheros modificados, necesarios para una compilación correcta.
+# Descarga de ficheros modificados necesarios para una compilación correcta.
 if [ $android = q-x86 ];
 then
 	echo "Descargando y extrayendo ficheros modificados para la rama q-x86. Espera."
@@ -144,6 +149,8 @@ then
 fi
 source build/envsetup.sh
 lunch $arquitectura-$target
+# Arreglo para solucionar algunos casos en los cuales los comandos no se encuentran.
+export PATH="$PATH:/usr/sbin"
 echo
 # El parámetro nproc usará todos los núcleos del procesador para la compilación, lo que puede llegar a saturar el sistema en ciertos momentos. Otra opción recomendable puede ser: $(($(nproc) - 1)) que usa todos los núcleos excepto uno.
 make -j$(nproc) iso_img
