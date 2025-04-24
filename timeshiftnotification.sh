@@ -13,8 +13,8 @@
 # Compatibilidad: CPUs x86 de 64 bits que ejecuten Debian 11 o superior, o Ubuntu 20.04 o superior. Es también compatible con cualquier otra distribución que use los repositorios de alguna de estas dos distribuciones.
 # Requisitos necesarios:
 #	1. Tener instalado y configurado Timeshift, usando rsync.
-#	2. Tener instalado procps, coreutils, libnotify y bash.
-# NOTA: El script no diferencia entre las operaciones de Timeshift y las de cualquier otra con rsync. Si en el sistema se realiza otra operación con rsync que tenga permisos de súper-usuario, la notificación también aparecerá. Recomiendo poner el script para que se ejecute al inicio de sesión del usuario y así poder sacarle el máximo partido, ya qué comprueba cada hora si se está realizando una copia o no.
+#	2. Tener instalados procps, coreutils, libnotify y bash.
+# NOTA: El script no diferencia entre las operaciones de Timeshift y las de cualquier otra con rsync. Si en el sistema se realiza otra operación con rsync que tenga permisos de súper-usuario, la notificación también aparecerá. Recomiendo poner el script para que se ejecute al inicio de sesión del usuario y así poder sacarle el máximo partido, ya que comprueba cada hora si se está realizando una copia o no.
 ##################################################
 while true;
 do
