@@ -19,28 +19,28 @@ sudo echo 1>/dev/null
 echo "Comprobando si es necesario instalar paquetes."
 sudo apt update 1>/dev/null 2>/dev/null
 sudo apt -y install wget bzip2 coreutils xdg-utils sudo bash
-# Comprobación para saber que librería concreta de OpenSCAP instalar, ya que difiere dependiendo de la versión de cada una de las distribuciones.
+# Comprobación para saber qué librería concreta de OpenSCAP instalar, ya que difiere dependiendo de la versión de cada una de las distribuciones.
 version=$(cat /etc/os-release | grep VERSION_ID | cut -c 13-14,16-17)
 distribucion=$(cat /etc/os-release | grep -w ID | cut -c 4-)
-if [ $version -ge 12 -a $distribucion == debian ];
+if [ $version -ge 12 -a $distribucion = debian ];
 then
 	sudo apt -y install openscap-scanner
-elif [ $version -le 2204 -a $distribucion == ubuntu ];
+elif [ $version -le 2204 -a $distribucion = ubuntu ];
 then
 	sudo apt -y install libopenscap8
-elif [ $version -ge 2404 -a $distribucion == ubuntu ];
+elif [ $version -ge 2404 -a $distribucion = ubuntu ];
 then
 	sudo apt -y install libopenscap25t64
 fi
 clear
 # Descarga, descompresión y ejecución del OVAL más reciente, dependiendo de la distribución usada.
-if [ $distribucion == ubuntu ];
+if [ $distribucion = ubuntu ];
 then
 	wget https://security-metadata.canonical.com/oval/com.ubuntu.$(lsb_release -cs).usn.oval.xml.bz2 1>/dev/null 2>/dev/null
 	bunzip2 com.ubuntu.$(lsb_release -cs).usn.oval.xml.bz2 2>/dev/null
 	echo "Analizando vulnerabilidades en paquetes. En breves momentos el resultado se abrirá en el navegador predeterminado del sistema."
 	oscap oval eval --report report-$(lsb_release -cs).html com.ubuntu.$(lsb_release -cs).usn.oval.xml 1>/dev/null 2>/dev/null
-elif [ $distribucion == debian ];
+elif [ $distribucion = debian ];
 then
 	wget https://www.debian.org/security/oval/oval-definitions-$(lsb_release -cs).xml.bz2 1>/dev/null 2>/dev/null
 	bunzip2 oval-definitions-$(lsb_release -cs).xml.bz2 2>/dev/null
