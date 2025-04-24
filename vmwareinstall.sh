@@ -11,9 +11,9 @@
 ##################################################
 # Descripción del script: Instalar o actualizar VMware Workstation.
 # Compatibilidad: CPUs x86 de 64 bits que ejecuten Debian 11 o superior, o Ubuntu 20.04 o superior. Es también compatible con cualquier otra distribución que use los repositorios de alguna de estas dos distribuciones.
-# NOTA: El script está pensado para usarse en equipos con Secure Boot activado (Lineas 38-50 del script).
+# NOTA: El script está pensado para usarse en equipos con Secure Boot activado (Líneas 38-50 del script).
 ##################################################
-# Debido a que el ejecutable que se descargue es de un solo uso y de gran tamaño, se descargara en /tmp, de manera que al reinicio ya no esté almacenado.
+# Debido a que el ejecutable que se descargue es de un solo uso y de gran tamaño, se descargará en /tmp, de manera que al reinicio ya no esté almacenado.
 cd /tmp
 # Esto permitirá ejecutar comandos con permisos de súper-usuario sin necesidad de poner la contraseña una y otra vez. Si has configurado sudoers para que este tipo de "trucos" no funcione, esto será inútil.
 sudo echo 1>/dev/null
@@ -27,7 +27,7 @@ wget https://softwareupdate.vmware.com/cds/vmw-desktop/ws/17.6.3/24583834/linux/
 tar -xf VMware-Workstation-17.6.3-24583834.x86_64.bundle.tar
 chmod 700 VMware-Workstation-17.6.3-24583834.x86_64.bundle
 echo
-# Desinstalar VMware Workstation y re-instalarlo.
+# Desinstalar VMware Workstation y reinstalarlo.
 echo "Q para cancelar, ENTER para seguir."
 echo "(No hace falta pulsar ninguna tecla si no estaba previamente instalado)"
 sudo vmware-installer -u vmware-workstation 1>/dev/null 2>/dev/null
@@ -47,4 +47,4 @@ echo "Introduce la clave para poder añadir el certificado en el reinicio:"
 sudo mokutil --import MOK.der
 mokutil --export ~/Descargas
 echo
-echo "Se han exportado los MOKs en Descargas, para posterior eliminación. Revisa el MOK antiguo y eliminalo. Después, reinicia el equipo para completar todas las operaciones en un solo reinicio."
+echo "Se han exportado los MOKs en Descargas, para posterior eliminación. Revisa el MOK antiguo y elimínalo. Después, reinicia el equipo para completar todas las operaciones en un solo reinicio."
