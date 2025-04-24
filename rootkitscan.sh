@@ -33,7 +33,7 @@ sudo touch /etc/chkrootkit/chkrootkit.ignore
 sudo chkrootkit -q | grep -v -f /etc/chkrootkit/chkrootkit.ignore | tee ~/Documentos/Logs/chkrootkit.log
 sudo chown $USER:$USER ~/Documentos/Logs/chkrootkit.log
 echo
-# Actualizar las bases de datos de rkhunter, ejecutar un análisis automatizado y qué solo muestre los positivos.
+# Actualizar las bases de datos de rkhunter, ejecutar un análisis automatizado y que solo muestre los positivos.
 echo "Ejecutando: rkhunter"
 echo
 sudo rkhunter --update 1>/dev/null
