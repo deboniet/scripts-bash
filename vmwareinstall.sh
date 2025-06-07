@@ -12,6 +12,7 @@
 # Descripción del script: Instalar o actualizar VMware Workstation.
 # Compatibilidad: CPUs x86 de 64 bits que ejecuten Debian 11 o superior, o Ubuntu 20.04 o superior. Es también compatible con cualquier otra distribución que use los repositorios de alguna de estas dos distribuciones.
 # NOTA: El script está pensado para usarse en equipos con Secure Boot activado (Líneas 38-50 del script).
+# NOTA IMPORTANTE: El script funcionaba antes de la decisión de Broadcom de quitar el acceso sin autentificación a los servidores de actualización. Hasta que haya una solución, se considera este script como NO FUNCIONAL. Como solución temporal, puedes descargar el instalador desde Broadcom de manera manual y cambiar el script acorde a ello.
 ##################################################
 # Debido a que el ejecutable que se descargue es de un solo uso y de gran tamaño, se descargará en /tmp, de manera que al reinicio ya no esté almacenado.
 cd /tmp
