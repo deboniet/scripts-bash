@@ -64,10 +64,10 @@ mkdir -p ~/"Documentos/Logs/ClamAV/$fecha $hora/GREP/"
 # Inicio de clamscan. También se registra el inicio y el final en el journal del sistema.
 # NOTA: En algunas versiones de Debian hay límite de tamaño para el análisis de 2 GB, en vez de 4 GB.
 echo "Iniciado un escáner de ClamAV por parte de $USER." | logger
-sudo clamscan -v -o --official-db-only=yes -r -z --cross-fs --follow-dir-symlinks=0 --follow-file-symlinks=0 --bytecode --detect-pua=yes --exclude-pua=Doc --scan-mail --heuristic-alerts --scan-pe --scan-elf --scan-ole2 --scan-pdf --scan-swf --scan-html --scan-xmldocs --scan-hwp3 --scan-archive --alert-encrypted=yes --alert-macros=yes --alert-exceeds-max=yes --alert-partition-intersection=yes --max-scantime=600000 --max-files=50000 --max-recursion=50 --max-dir-recursion=50 --max-embeddedpe=4000M --max-filesize="$n"000M --max-scansize="$n"000M --alert-broken-media=no "$1" | ts %H:%M:%S | tee ~/"Documentos/Logs/ClamAV/$fecha $hora/ClamScan $fecha $hora (tmp).txt"
+sudo clamscan -v -o --official-db-only=yes -r -z --cross-fs --follow-dir-symlinks=0 --follow-file-symlinks=0 --bytecode --detect-pua=yes --heuristic-alerts --scan-mail --scan-pe --scan-elf --scan-ole2 --scan-pdf --scan-swf --scan-html --scan-xmldocs --scan-hwp3 --scan-archive --alert-encrypted=yes --alert-macros=yes --alert-exceeds-max=yes --alert-partition-intersection=yes --max-scantime=600000 --max-files=50000 --max-recursion=50 --max-dir-recursion=50 --max-embeddedpe=4000M --max-filesize="$n"000M --max-scansize="$n"000M --alert-broken-media=no "$1" | ts %H:%M:%S | tee ~/"Documentos/Logs/ClamAV/$fecha $hora/ClamScan $fecha $hora (tmp).txt"
 echo "Finalizado el escáner de ClamAV por parte de $USER, iniciado a las $hora del $fecha" | logger
 # Filtrado del registro original para reducir su tamaño.
-grep -v -e /proc -e " Symbolic link" ~/"Documentos/Logs/ClamAV/$fecha $hora/ClamScan $fecha $hora (tmp).txt" > ~/"Documentos/Logs/ClamAV/$fecha $hora/ClamScan $fecha $hora.txt"
+grep -v -e /proc -e /sys -e " Symbolic link" ~/"Documentos/Logs/ClamAV/$fecha $hora/ClamScan $fecha $hora (tmp).txt" > ~/"Documentos/Logs/ClamAV/$fecha $hora/ClamScan $fecha $hora.txt"
 # Filtrado de los positivos.
 grep " FOUND" ~/"Documentos/Logs/ClamAV/$fecha $hora/ClamScan $fecha $hora.txt" > ~/"Documentos/Logs/ClamAV/$fecha $hora/GREP/ClamScan (Positivos) $fecha $hora.txt"
 # Filtrado de las exclusiones.
