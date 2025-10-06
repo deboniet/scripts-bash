@@ -21,27 +21,16 @@ sudo apt -y install clamav clamav-freshclam libclamunrar coreutils moreutils uti
 # Comprobación para saber si instalar 7zip o p7zip, ya que 7zip solo está disponible a partir de la versión 12 de Debian y la 22.04 de Ubuntu.
 version=$(cat /etc/os-release | grep VERSION_ID | cut -c 13-14,16-17)
 distribucion=$(cat /etc/os-release | grep -w ID | cut -c 4-)
-# Variables para poder realizar el escáner y la compresión correctamente dependiendo de la distribución usada.
-n=0
-zip=0
-if [ $version -eq 2204 -a $distribucion = ubuntu ];
+# Variables para poder realizar el escáner y la compresión correctamente. Configúralas dependiendo de la versión y distribución que uses.
+n=2
+zip=7z
+if [ $version -ge 2204 -a $distribucion = ubuntu ];
 then
-	n=2
-	zip=7zz
-	sudo apt -y install 7zip
-elif [ $version -ge 2404 -a $distribucion = ubuntu ];
-then
-	n=2
-	zip=7z
 	sudo apt -y install 7zip
 elif [ $version -ge 12 -a $distribucion = debian ];
 then
-	n=2
-	zip=7zz
 	sudo apt -y install 7zip
 else
-	n=2
-	zip=7z
 	sudo apt -y install p7zip-full
 fi
 clear
