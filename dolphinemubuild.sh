@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright (C) 2024-2025 deboniet
+# Copyright (C) 2026 deboniet
 
 # This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or any later version.
 
@@ -39,7 +39,7 @@ if [ $version = Estable -o $version = estable -o $version = E -o $version = e ];
 then
 	echo
 	echo "Seleccionada la versión estable. Descargando."
-	git clone --branch 2509 --single-branch https://github.com/dolphin-emu/dolphin
+	git clone --branch 2512 --single-branch https://github.com/dolphin-emu/dolphin
 elif [ $version = Desarrollo -o $version = desarrollo -o $version = D -o $version = d ];
 then
 	echo
