@@ -39,7 +39,7 @@ if [ $version = Estable -o $version = estable -o $version = E -o $version = e ];
 then
 	echo
 	echo "Seleccionada la versión estable. Descargando."
-	git clone --branch 2512 --single-branch https://github.com/dolphin-emu/dolphin
+	git clone --branch 2603a --single-branch https://github.com/dolphin-emu/dolphin
 elif [ $version = Desarrollo -o $version = desarrollo -o $version = D -o $version = d ];
 then
 	echo
@@ -54,8 +54,8 @@ submodule update --init --recursive \
 && git pull --recurse-submodules
 sudo rm -r build 2>/dev/null
 mkdir build && cd build
-# El argumento -Wno-dev suprime algunos mensajes irrelevantes.
-cmake .. -Wno-dev
+# Estos argumentos suprimen algunos mensajes irrelevantes.
+cmake .. -Wno-dev -DENABLE_EGL=OFF -DENCODE_FRAMEDUMPS=OFF
 echo
 # El parámetro nproc usará todos los núcleos del procesador para la compilación, lo que puede llegar a saturar el sistema en ciertos momentos. Otra opción recomendable puede ser: $(($(nproc) - 1)) que usa todos los núcleos excepto uno.
 make -j$(nproc)
