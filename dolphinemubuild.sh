@@ -39,7 +39,7 @@ if [ $version = Estable -o $version = estable -o $version = E -o $version = e ];
 then
 	echo
 	echo "Seleccionada la versión estable. Descargando."
-	git clone --branch 2603a --single-branch https://github.com/dolphin-emu/dolphin
+	git clone --branch 2606a --single-branch https://github.com/dolphin-emu/dolphin
 elif [ $version = Desarrollo -o $version = desarrollo -o $version = D -o $version = d ];
 then
 	echo
