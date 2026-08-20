@@ -29,7 +29,7 @@ wget https://meltdown.ovh -O spectre-meltdown-checker.sh 1>/dev/null 2>/dev/null
 chmod 700 spectre-meltdown-checker.sh
 if [ $procesador = GenuineIntel ];
 then
-	wget https://downloadmirror.intel.com/28632/CSME_Version_Detection_Tool_14_0_2_0015_Linux.tar.gz 1>/dev/null 2>/dev/null
+	wget https://downloadmirror.intel.com/28632/CSME_Version_Detection_Tool_Linux.tar_15_0_3_0021.gz 1>/dev/null 2>/dev/null
 fi
 clear
 # Descompresión y ejecución de los scripts.
@@ -37,7 +37,7 @@ sudo ./spectre-meltdown-checker.sh
 echo
 if [ $procesador = GenuineIntel ];
 then
-	tar -xf CSME_Version_Detection_Tool_14_0_2_0015_Linux.tar.gz
+	tar -xf CSME_Version_Detection_Tool_Linux.tar_15_0_3_0021.gz
 	python3 intel_csme_version_detection_tool
 else
 	echo
