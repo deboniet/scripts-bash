@@ -11,7 +11,7 @@
 ##################################################
 # Descripción del script: Crear una ISO arrancable de Android para equipos x86.
 # Instrucciones de compilación basadas en: www.android-x86.org/source.html
-# Compatibilidad: CPUs x86 de 64 bits que ejecuten Debian 11 o superior, o Ubuntu 20.04 o superior. Es también compatible con cualquier otra distribución que use los repositorios de alguna de estas dos distribuciones.
+# Compatibilidad: CPUs x86 de 64 bits que ejecuten Debian 12 o inferior, o Ubuntu 22.04 o inferior. Es también compatible con cualquier otra distribución que use los repositorios de alguna de estas dos distribuciones.
 # Requisitos mínimos calculados para la rama r-x86: 185 GiB de espacio y 16 GiB de RAM (menos de esta cantidad puede ocasionar fallos al compilar ciertos componentes).
 # Recomendaciones previas: Consultar el espacio disponible en disco, la disponibilidad de Python 2/3 y tener un fichero de memoria de intercambio de, al menos, la mitad de la memoria RAM.
 
@@ -77,7 +77,7 @@ echo "user --> Acceso limitado, como en las imágenes reales de Android."
 echo "userdebug --> Igual que user, pero más adecuada para desarrollo."
 echo "eng --> Acceso ilimitado, ideal para desarrollo."
 echo
-read -p "Introduce el target: " target
+read -p "Introduce el destino: " destino
 echo
 mkdir $android 2>/dev/null
 cd $android
@@ -148,7 +148,7 @@ then
 	rm q-x86_mod-files.zip 2>/dev/null
 fi
 source build/envsetup.sh
-lunch $arquitectura-$target
+lunch $arquitectura-$destino
 # Arreglo para solucionar algunos casos en los cuales los comandos no se encuentran.
 export PATH="$PATH:/usr/sbin"
 echo
