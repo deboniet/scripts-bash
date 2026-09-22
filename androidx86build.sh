@@ -26,7 +26,7 @@ java8=0
 sudo echo 1>/dev/null
 echo "Comprobando si es necesario instalar paquetes."
 sudo apt update 1>/dev/null 2>/dev/null
-sudo apt -y install git gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 libncurses6 libx11-dev lib32z1-dev libxml2-utils xsltproc unzip fontconfig gcc make m4 lib32stdc++6 libelf-dev mtools libssl-dev syslinux-utils openssh-client pkgconf genisoimage squashfs-tools coreutils bash libselinux1-dev libsepol-dev wget unzip gettext java-common bc
+sudo apt -y install git gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 libncurses6 libx11-dev lib32z1-dev libxml2-utils xsltproc unzip fontconfig gcc make m4 lib32stdc++6 libelf-dev mtools libssl-dev syslinux-utils openssh-client pkgconf genisoimage squashfs-tools coreutils bash libselinux1-dev libsepol-dev wget gettext java-common bc
 # Comprobación para saber qué versión de Java instalar, al no estar OpenJDK 21 en todos los repositorios de Debian. La compilación no da errores con estas versiones recientes de Java, pero sí da ciertas advertencias por usarlas. Si esto te preocupa, cambia a la versión 8 de Java.
 version=$(cat /etc/os-release | grep VERSION_ID | cut -c 13-14,16-17)
 distribucion=$(cat /etc/os-release | grep -w ID | cut -c 4-)
